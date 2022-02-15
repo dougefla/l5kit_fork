@@ -1,15 +1,10 @@
 
-from re import L
 from torch.utils.data import DataLoader
 import os
 from l5kit.data import ChunkedDataset, LocalDataManager
 from l5kit.dataset import EgoDataset
 from l5kit.rasterization import build_rasterizer
 import time
-import h5py
-import cv2
-import torch
-import numpy as np
 
 cfg = {
     'format_version': 4,

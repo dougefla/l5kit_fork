@@ -197,36 +197,36 @@ class EgoDataset(BaseEgoDataset):
             state_index = index - self.cumulative_sizes[scene_index - 1]
         data = self.get_frame(scene_index, state_index)
 
-        # IF Simple
-        # return data
+        return data
 
-        # IF PARALLEL
+
+# Uncommend this part if Preprocessing
         # >>>
-        save_path = r"/data_hdd/fla/l5kit_data/rasterized"
-        img_save_path = os.path.join(save_path, "image_4/")
-        target_save_path = os.path.join(save_path, "target_4/")
+        # save_path = r"/data_hdd/fla/l5kit_data/rasterized"
+        # img_save_path = os.path.join(save_path, "image_4/")
+        # target_save_path = os.path.join(save_path, "target_4/")
 
-        timestamp = int(data['timestamp'])
-        img_name = os.path.join(img_save_path,'train_{}_{}_{:0>20d}.png'.format(self.cfg['model_params']['history_num_frames'],self.cfg['model_params']['future_num_frames'],timestamp))
-        target_name = os.path.join(target_save_path,'train_{}_{}_{:0>20d}.txt'.format(self.cfg['model_params']['history_num_frames'],self.cfg['model_params']['future_num_frames'],timestamp))
-        if os.path.exists(img_name) and os.path.exists(target_name):
-            print("File {} and {} Exists, Skip.".format(img_name,target_name))
-            return 0
-        target_pos = (data['target_positions'])
-        target_yaw = (data['target_yaws'])
-        target_aval_half = (data['target_availabilities'])
-        target_aval = [str(target_aval_half[int(i/2)]) for i in range(2*len(target_aval_half))]
+        # timestamp = int(data['timestamp'])
+        # img_name = os.path.join(img_save_path,'train_{}_{}_{:0>20d}.png'.format(self.cfg['model_params']['history_num_frames'],self.cfg['model_params']['future_num_frames'],timestamp))
+        # target_name = os.path.join(target_save_path,'train_{}_{}_{:0>20d}.txt'.format(self.cfg['model_params']['history_num_frames'],self.cfg['model_params']['future_num_frames'],timestamp))
+        # if os.path.exists(img_name) and os.path.exists(target_name):
+        #     print("File {} and {} Exists, Skip.".format(img_name,target_name))
+        #     return 0
+        # target_pos = (data['target_positions'])
+        # target_yaw = (data['target_yaws'])
+        # target_aval_half = (data['target_availabilities'])
+        # target_aval = [str(target_aval_half[int(i/2)]) for i in range(2*len(target_aval_half))]
 
-        image_box = data['image_box']
-        image_sem = np.transpose((data['image_sem']), (1,2, 0))
-        image_rgb = self.rasterizer.to_rgb(image_box,image_sem)
+        # image_box = data['image_box']
+        # image_sem = np.transpose((data['image_sem']), (1,2, 0))
+        # image_rgb = self.rasterizer.to_rgb(image_box,image_sem)
         
 
-        with open(target_name, 'w') as f:
-            target_pos_str = " ".join([str(target_pos[i][0])+" "+str(target_pos[i][1])+" "+str(target_yaw[i][0]) for i in range(self.cfg['model_params']['future_num_frames'])]) + '\n' + " ".join(target_aval)
-            f.write(target_pos_str)
-        cv2.imwrite(img_name,cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB))
-        return 0
+        # with open(target_name, 'w') as f:
+        #     target_pos_str = " ".join([str(target_pos[i][0])+" "+str(target_pos[i][1])+" "+str(target_yaw[i][0]) for i in range(self.cfg['model_params']['future_num_frames'])]) + '\n' + " ".join(target_aval)
+        #     f.write(target_pos_str)
+        # cv2.imwrite(img_name,cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB))
+        # return 0
         # <<<
 
 
